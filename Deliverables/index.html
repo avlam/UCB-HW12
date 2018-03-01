@@ -11,16 +11,18 @@
     <body>
         <div class="container">
             <div class="row">
-                <div class="col-md-2">
-                    <div class="form-group">
-                        <input type="text" class="form-control" id="date" placeholder="mm/dd/yyyy">
+                <div class="col-md-3">
+                    <div class="row form-group">
+                        <input type="text" class="col-md-5 form-control" id="startDate" placeholder="mm/dd/yyyy">
+                            <div class="col-md-2"><p>to</p></div>
+                        <input type="text" class="col-md-5 form-control" id="endDate" placeholder="mm/dd/yyyy">
                         <input type="text" class="form-control" id="city" placeholder="City">
                         <input type="text" class="form-control" id="state" placeholder="State">
                         <input type="text" class="form-control" id="country" placeholder="Country">
-                            <a id="search" class="btn btn-default">Search</a>
-                            </div>
+                            <a id="search" class="btn btn-primary">Search</a>
+                    </div>
                 </div>
-                <div class="col-md-10">
+                <div class="col-md-9">
                     <table class="table table-striped">
                         <thead>
                             <tr>
@@ -36,6 +38,10 @@
                         <tbody>
                         </tbody>
                     </table>
+                    <nav class="row center-block">
+                        <ul class="pagination" id="tableNav">
+                        </ul>
+                    </nav>
                 </div>
             </div>
         </div>
