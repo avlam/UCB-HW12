@@ -52,6 +52,7 @@ for(n=0;n<Object.keys(shapes).length;n++){
     $menuItem.addEventListener('click',function(){
         console.log('Set shapeQuery to: ' + this.innerText);
         $shapeQuery.innerText = this.innerText;
+        event.preventDefault();
     })
     $shapeMenu.appendChild($menuItem);
     console.log(Object.entries(shapes)[n])
@@ -196,7 +197,11 @@ function createPage(value,special){
         $pageButton.setAttribute('id', special);
         $pageLink.innerHTML = '<span aria-hidden="true">' + specialValues[special]['text'] + '</span>\
             <span class="sr-only">' + special + '</span>';
-        $pageLink.addEventListener('click',function(){goToPage(specialValues[special]['target']);})
+        $pageLink.addEventListener('click',function(){
+            goToPage(specialValues[special]['target']);
+            event.preventDefault();
+        })
+        
     }
     else if(special){
         // other special cases
@@ -208,7 +213,10 @@ function createPage(value,special){
             $pageButton.setAttribute('id','currentPage');
             appendAttribute($pageButton,'class','active');
         }
-        else{$pageLink.addEventListener('click',function(){goToPage(value);})}
+        else{$pageLink.addEventListener('click',function(){
+            goToPage(value);
+            event.preventDefault();
+        })}
     }
     $pageButton.appendChild($pageLink);
     $tableNav.appendChild($pageButton)
