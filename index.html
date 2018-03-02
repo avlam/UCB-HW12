@@ -6,12 +6,26 @@
                 <meta http-equiv="X-UA-Compatible" content="ie=edge">
                     <title>Yoo-Foh</title>
                     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css" />
+    <script src="https://unpkg.com/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+    
     </head>
     
     <body>
         <div class="container">
             <div class="row">
                 <div class="col-md-3">
+                    <div class="row btn-group">
+                        <button type="button" id="shapeQuery" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            Shape
+                        </button>
+                        <div class="dropdown-menu">
+                            <div id="shapeMenu"></div>
+                            <div class="dropdown-divider"></div>
+                            <a class="dropdown-item" id="shapeReset" href="#">Any Shape</a>
+                        </div>
+                    </div>
                     <div class="row form-group">
                         <input type="text" class="col-md-5 form-control" id="startDate" placeholder="mm/dd/yyyy">
                             <div class="col-md-2"><p>to</p></div>

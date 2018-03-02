@@ -1,14 +1,61 @@
 var filteredData = dataSet;
 var pageLimit = 10;
 var currentPage = 1;
+var filters = [
+    {'name' : 'shape',
+    'active' : true,
+    'handle' : matchShape},
+    {'name' : 'city',
+    'active' : true,
+    'handle' : matchCity},
+    {'name' : 'state',
+    'active' : true,
+    'handle' : matchState},
+    {'name' : 'country',
+    'active' : true,
+    'handle' : matchCountry},
+    {'name' : 'minDate',
+    'active' : true,
+    'handle' : minDate},
+    {'name' : 'shape',
+    'active' : true,
+    'handle' : maxDate}
+]
 populateTable();
 createTableNav();
 
 // DOM elements
 var $search = document.getElementById('search');
+var $shapeMenu = document.getElementById('shapeMenu');
+var $shapeReset = document.getElementById('shapeReset');
+var $shapeQuery = document.getElementById('shapeQuery');
 
 // event listeners
 $search.addEventListener('click',filterSightings);
+$shapeReset.addEventListener('click',function(){
+    $shapeQuery.innerText = 'Shape';
+})
+
+var shapes = {};
+for(m=0;m<dataSet.length;m++){
+    if(shapes[dataSet[m].shape]==undefined){
+        shapes[dataSet[m].shape] = 1;
+    }
+    else{shapes[dataSet[m].shape] += 1;}
+}
+
+for(n=0;n<Object.keys(shapes).length;n++){
+    var $menuItem = document.createElement('a');
+    $menuItem.setAttribute('class','dropdown-item');
+    $menuItem.setAttribute('href','#');
+    $menuItem.innerText = Object.keys(shapes)[n];
+    $menuItem.addEventListener('click',function(){
+        console.log('Set shapeQuery to: ' + this.innerText);
+        $shapeQuery.innerText = this.innerText;
+    })
+    $shapeMenu.appendChild($menuItem);
+    console.log(Object.entries(shapes)[n])
+}
 
 function filterSightings(){
     clearTable();
@@ -20,7 +67,11 @@ function filterSightings(){
 
 // Filters
 function applyFilters(){
-    filteredData = dataSet.filter(matchCity).filter(matchState).filter(matchCountry).filter(minDate).filter(maxDate);
+    //filteredData = dataSet.filter(matchCity).filter(matchState).filter(matchCountry).filter(minDate).filter(maxDate);
+    filteredData = dataSet;
+    for(n = 0;n<filters.length;n++){
+        if(filters[n]['active']){filteredData = filteredData.filter(filters[n]['handle'])}
+    }
     // reset current page when changing filters
     currentPage = 1;
 }
@@ -30,6 +81,12 @@ function matchCity(sighting){
     var query = $city.value.toLowerCase()
     if(query === ''){return true}
     return sighting.city.toLowerCase() == query;
+}
+
+function matchShape(sighting){
+    var query = $shapeQuery.innerText;
+    if(query === 'Shape'){return true}
+    return sighting.shape.toLowerCase() == query;
 }
 
 function matchState(sighting){
