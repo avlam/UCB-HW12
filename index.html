@@ -4,7 +4,7 @@
         <meta charset="UTF-8">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
                 <meta http-equiv="X-UA-Compatible" content="ie=edge">
-                    <title>Yoo-Foh</title>
+                    <title>Pronounced like "Yoo-Foh"</title>
                     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.min.css" />
     <script src="https://unpkg.com/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
@@ -15,9 +15,15 @@
     <body>
         <div class="container">
             <div class="row">
-                <div class="col-md-3">
-                    <div class="row btn-group">
-                        <button type="button" id="shapeQuery" class="btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <div class="col-md-12 jumbotron text-center">
+                <h1>UFO Sightings</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 border rounded-left bg-light">
+                    <h2 class="m-2 text-center">Filters</h2>
+                    <div class="row btn-group mx-auto w-100 p-2">
+                        <button type="button" id="shapeQuery" class="my-1 btn-block w-100 btn btn-secondary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Shape
                         </button>
                         <div class="dropdown-menu">
@@ -26,18 +32,18 @@
                             <a class="dropdown-item" id="shapeReset" href="#">Any Shape</a>
                         </div>
                     </div>
-                    <div class="row form-group">
-                        <input type="text" class="col-md-5 form-control" id="startDate" placeholder="mm/dd/yyyy">
+                    <div class="row form-group mx-2">
+                        <input type="text" class="my-1 col-md-5 form-control" id="startDate" placeholder="mm/dd/yyyy">
                             <div class="col-md-2"><p>to</p></div>
-                        <input type="text" class="col-md-5 form-control" id="endDate" placeholder="mm/dd/yyyy">
-                        <input type="text" class="form-control" id="city" placeholder="City">
-                        <input type="text" class="form-control" id="state" placeholder="State">
-                        <input type="text" class="form-control" id="country" placeholder="Country">
-                            <a id="search" class="btn btn-primary">Search</a>
+                        <input type="text" class="my-1 col-md-5 form-control" id="endDate" placeholder="mm/dd/yyyy">
+                        <input type="text" class="my-1 form-control" id="city" placeholder="City">
+                        <input type="text" class="my-1 form-control" id="state" placeholder="State">
+                        <input type="text" class="my-1 form-control" id="country" placeholder="Country">
+                            <a id="search" class="btn-block btn btn-primary mx-auto w-100 m-2">Search</a>
                     </div>
                 </div>
-                <div class="col-md-9">
-                    <table class="table table-striped">
+                <div class="col-md-9 border rounded-right bg-light">
+                    <table class="table table-striped border-md-0">
                         <thead>
                             <tr>
                                 <th>Date</th>
@@ -52,8 +58,8 @@
                         <tbody>
                         </tbody>
                     </table>
-                    <nav class="row center-block">
-                        <ul class="pagination" id="tableNav">
+                    <nav class="row">
+                        <ul class="pagination mx-auto" id="tableNav">
                         </ul>
                     </nav>
                 </div>
