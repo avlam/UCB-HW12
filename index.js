@@ -43,12 +43,18 @@ for(m=0;m<dataSet.length;m++){
     }
     else{shapes[dataSet[m].shape] += 1;}
 }
+let uniqueShapes = Object.keys(shapes)
+uniqueShapes = uniqueShapes.sort((a,b) => {
+    if(a > b){return 1}
+    else{return -1}
+});
+console.log(uniqueShapes);
 
-for(n=0;n<Object.keys(shapes).length;n++){
+for(n=0;n<uniqueShapes.length;n++){
     var $menuItem = document.createElement('a');
     $menuItem.setAttribute('class','dropdown-item');
     $menuItem.setAttribute('href','#');
-    $menuItem.innerText = Object.keys(shapes)[n];
+    $menuItem.innerText = uniqueShapes[n];
     $menuItem.addEventListener('click',function(){
         console.log('Set shapeQuery to: ' + this.innerText);
         $shapeQuery.innerText = this.innerText;
