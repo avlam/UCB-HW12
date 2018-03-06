@@ -1,26 +1,16 @@
+// dataSet = dataSet.slice(0,50);
 var filteredData = dataSet;
 var pageLimit = 10;
 var currentPage = 1;
 var filters = [
-    {'name' : 'shape',
-    'active' : true,
-    'handle' : matchShape},
-    {'name' : 'city',
-    'active' : true,
-    'handle' : matchCity},
-    {'name' : 'state',
-    'active' : true,
-    'handle' : matchState},
-    {'name' : 'country',
-    'active' : true,
-    'handle' : matchCountry},
-    {'name' : 'minDate',
-    'active' : true,
-    'handle' : minDate},
-    {'name' : 'shape',
-    'active' : true,
-    'handle' : maxDate}
+    {'elementId' : 'shapeQuery'},
+    {'elementId' : 'city'},
+    {'elementId' : 'state'},
+    {'elementId' : 'country'},
+    {'elementId' : 'startDate'},
+    {'elementId' : 'endDate'}
 ]
+// create default page
 populateTable();
 createTableNav();
 
@@ -50,12 +40,11 @@ for(n=0;n<Object.keys(shapes).length;n++){
     $menuItem.setAttribute('href','#');
     $menuItem.innerText = Object.keys(shapes)[n];
     $menuItem.addEventListener('click',function(){
-        console.log('Set shapeQuery to: ' + this.innerText);
         $shapeQuery.innerText = this.innerText;
         event.preventDefault();
     })
     $shapeMenu.appendChild($menuItem);
-    console.log(Object.entries(shapes)[n])
+    // console.log(Object.entries(shapes)[n])
 }
 
 function filterSightings(){
@@ -70,53 +59,119 @@ function filterSightings(){
 function applyFilters(){
     //filteredData = dataSet.filter(matchCity).filter(matchState).filter(matchCountry).filter(minDate).filter(maxDate);
     filteredData = dataSet;
-    for(n = 0;n<filters.length;n++){
-        if(filters[n]['active']){filteredData = filteredData.filter(filters[n]['handle'])}
-    }
+    console.log('length before filter: ' + filteredData.length);
+    filteredData = filteredData.filter(function(sighting){
+        filterX(sighting,filters[0]['elementId']);
+    });
+    console.log('length after filter: ' + filteredData.length);
+    // // for(n = 0;n<filters.length;n++){
+    // //     // if(filters[n]['active']){filteredData = filteredData.filter(filters[n]['handle'])}
+    // //     filteredData = filteredData.filter(function(sighting){
+    // //         filterX(sighting,filters[n]['elementId']);
+    // //     });
+    // // }
     // reset current page when changing filters
     currentPage = 1;
 }
 
-function matchCity(sighting){
-    var $city = document.getElementById('city');
-    var query = $city.value.toLowerCase()
-    if(query === ''){return true}
-    return sighting.city.toLowerCase() == query;
+function filterX(sighting,elementId){
+    var $input = document.getElementById(elementId);
+    console.log('input: ' + elementId);
+    var query;
+    var candidate;
+    var wild = '';
+    var operation = '=='
+    switch(elementId){
+        case 'shapeQuery':
+            console.log('filtering shapes');
+            query = $input.innerText;
+            candidate = sighting['shape'].toLowerCase();
+            wild = 'Shape';
+            break;
+        case 'startDate' || 'endDate' :
+            query = new Date($input.value);
+            candidate = new Date(sighting['datetime']);
+            wild = 'Invalid Date';
+            if(elementId === 'startDate'){operation = '>=';}
+            else if(elementId === 'endDate'){operation = '<='}
+            break;
+        default:
+            query = $input.value.toLowerCase();
+            candidate = sighting[elementId].toLowerCase();
+            break;
+    }
+    console.log('wild condition: ' + wild);
+    console.log('query: ' + query);
+    console.log('candidate: ' + candidate);
+    console.log('is wild: ' + compareValues(wild,query,'=='));
+    console.log('is match: ' + compareValues(candidate,query,operation));
+    console.log('response: ' + (compareValues(wild,query,'==') || compareValues(candidate,query,operation)));
+    return (compareValues(wild,query,'==') || compareValues(candidate,query,operation));
 }
 
-function matchShape(sighting){
-    var query = $shapeQuery.innerText;
-    if(query === 'Shape'){return true}
-    return sighting.shape.toLowerCase() == query;
+function compareValues(a,b,operation){
+    switch(operation.toLowerCase()){
+        case '==':
+            return a == b;
+            break;
+        case '===':
+            return a === b;
+            break;
+        case '>=':
+            return a >= b;
+            break;
+        case '>':
+            return a > b;
+            break;
+        case '<=':
+            return a <= b;
+            break;
+        case '<':
+            return a < b;
+            break;
+    }
 }
 
-function matchState(sighting){
-    var $state = document.getElementById('state');
-    var query = $state.value.toLowerCase()
-    if(query === ''){return true}
-    return sighting.state.toLowerCase() == query;
-}
+// function matchShape(sighting){
+//     var query = $shapeQuery.innerText;
+//     if(query === 'Shape'){return true}
+//     return sighting.shape.toLowerCase() == query;
+// }
 
-function matchCountry(sighting){
-    var $country = document.getElementById('country');
-    var query = $country.value.toLowerCase()
-    if(query === ''){return true}
-    return sighting.country.toLowerCase() == query;
-}
+// function matchCity(sighting){
+//     var $city = document.getElementById('city');
+//     var query = $city.value.toLowerCase()
+//     if(query === ''){return true}
+//     return sighting.city.toLowerCase() == query;
+// }
 
-function minDate(sighting){
-    var $minDateFilter = document.getElementById('startDate');
-    var query = $minDateFilter.value;
-    if((query === '') || (new Date(query) == 'Invalid Date')){return true};
-    return new Date(sighting.datetime) >= new Date(query);
-}
+// function matchState(sighting){
+//     var $state = document.getElementById('state');
+//     var query = $state.value.toLowerCase()
+//     if(query === ''){return true}
+//     return sighting.state.toLowerCase() == query;
+// }
 
-function maxDate(sighting){
-    var $maxDateFilter = document.getElementById('endDate');
-    var query = $maxDateFilter.value;
-    if((query === '') || (new Date(query) == 'Invalid Date')){return true};
-    return new Date(sighting.datetime) <= new Date(query);
-}
+// function matchCountry(sighting){
+//     var $country = document.getElementById('country');
+//     var query = $country.value.toLowerCase()
+//     if(query === ''){return true}
+//     return sighting.country.toLowerCase() == query;
+// }
+
+// function minDate(sighting){
+//     var $minDateFilter = document.getElementById('startDate');
+//     var query = $minDateFilter.value;
+//     if((query === '') || (new Date(query) == 'Invalid Date')){return true};
+//     return new Date(sighting.datetime) >= new Date(query);
+// }
+
+// function maxDate(sighting){
+//     var $maxDateFilter = document.getElementById('endDate');
+//     var query = $maxDateFilter.value;
+//     if((query === '') || (new Date(query) == 'Invalid Date')){return true};
+//     return new Date(sighting.datetime) <= new Date(query);
+// }
 
 // Table modification
 function clearTable(){
@@ -129,7 +184,7 @@ function populateTable(pageNumber){
     console.log('Current PageNumber: ' + pageNumber);
     var $tbody = document.querySelector('tbody');
     var rows = calculatePageBounds(pageNumber);
-    console.log('Populating from ' + rows[0] + ' to ' + rows[rows.length-1])
+    console.log('Populating from ' + rows[0] + ' to ' + Math.min(filteredData.length,rows[rows.length-1]))
     for(i = rows[0]; i < Math.min(rows[rows.length-1], filteredData.length); i++){
         var sighting = filteredData[i];
         var $row = $tbody.insertRow(i-rows[0]);
